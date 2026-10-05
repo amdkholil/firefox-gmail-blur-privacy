@@ -8,17 +8,10 @@ keep a message visible.
 
 ## Install
 
-**From Firefox Add-ons** (recommended, after review):
+Get it from **Firefox Add-ons**:
 
 > Add-on listing is in review — the install link will appear here once
 > published.
-
-**Temporary install (for testing / development):**
-
-1. Open `about:debugging#/runtime/this-firefox`.
-2. Click **Load Temporary Add-on**.
-3. Select `manifest.json` from this folder.
-4. Reload your Gmail tab (`Ctrl+Shift+R`).
 
 ## How to use
 
@@ -42,8 +35,7 @@ keep a message visible.
 - Firefox 57+ (desktop).
 - Gmail web (`mail.google.com`, `gmail.com`).
 - Gmail occasionally changes its layout; if blur stops working after a
-  Gmail update, please open an issue (see below) and we'll update the
-  selectors.
+  Gmail update, please open an issue (see below) and we'll update it.
 
 ## Permissions — why each one?
 
@@ -64,28 +56,9 @@ Found a bug or Gmail changed its layout? Please open an issue at
 Security-sensitive reports: see [SECURITY.md](SECURITY.md) — please don't
 file them as public issues.
 
-## For developers
+## Contributing
 
-```sh
-git clone https://github.com/amdkholil/firefox-gmail-blur-privacy.git
-```
-
-Load it temporarily (see Install above) and open the Browser Console
-filtered by `gmail-blur` to see diagnostics (`blurred N nodes`).
-
-| File | Purpose |
-|---|---|
-| `manifest.json` | Extension manifest (matches, icons, popup) |
-| `content.js` | Blur logic, Gmail SPA observer, click-to-pin |
-| `blur.css` | Blur + per-row hover/reveal rules |
-| `background.js` | Default toggle state |
-| `popup.html` / `popup.js` | Toolbar toggle UI |
-| `icons/` | Extension icons (16–512px) |
-
-> **Firefox Flatpak note:** Flatpak Firefox can only read `~/Downloads` by
-> default. If `about:debugging` shows `Location: /run/user/.../doc/...`,
-> copy the folder into `~/Downloads` first, or grant access with
-> `flatpak override --user --filesystem=/path/to/firefox-gmail-blur-privacy org.mozilla.firefox`.
+Want to help or hack on it? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## More docs
 

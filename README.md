@@ -60,6 +60,12 @@ file them as public issues.
 
 Want to help or hack on it? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Support this project
+
+If this extension keeps your inbox private, consider supporting development:
+
+☕ [Buy me a coffee](https://buymeacoffee.com/amdkholil)
+
 ## More docs
 
 - [CHANGELOG.md](CHANGELOG.md) — release history.

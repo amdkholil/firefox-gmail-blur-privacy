@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- All `console.log` diagnostics from the content script — the console stays
+  clean (temporary debug logging can be re-added locally when needed).
+
 ### Fixed
 
 - Blur no longer disappears after idle / tab switch: Gmail rewrites row

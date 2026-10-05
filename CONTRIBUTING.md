@@ -9,10 +9,7 @@ git clone https://github.com/amdkholil/firefox-gmail-blur-privacy.git
 1. Open `about:debugging#/runtime/this-firefox`.
 2. Click **Load Temporary Add-on**.
 3. Select `manifest.json` from the project folder.
-4. Reload your Gmail tab (`Ctrl+Shift+R`).
-
-Open the Browser Console filtered by `gmail-blur` to see diagnostics
-(`content script loaded`, `enabled =`, `blurred N nodes`).
+4. Reload your Gmail tab (`Ctrl+Shift+R`). The inbox should be blurred.
 
 > **Firefox Flatpak note:** Flatpak Firefox can only read `~/Downloads` by
 > default. If `about:debugging` shows `Location: /run/user/.../doc/...`,

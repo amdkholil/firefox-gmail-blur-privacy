@@ -1,6 +1,4 @@
 (() => {
-  console.log('[gmail-blur] content script loaded on', location.href);
-
   // Inject CSS via JS so blurring works even if blur.css fails to load
   const style = document.createElement('style');
   style.textContent = `
@@ -77,15 +75,12 @@
     const res = await storeGet('enabled', { enabled: true });
     // res can be {enabled: bool} or bool
     enabled = (res && typeof res === 'object' && 'enabled' in res) ? res.enabled !== false : res !== false;
-    console.log('[gmail-blur] enabled =', enabled);
   }
 
-  function applyBlur(root = document, quiet = false) {
-    let count = 0;
+  function applyBlur(root = document) {
     for (const sel of SELECTORS) {
       try {
         root.querySelectorAll(sel).forEach((el) => {
-          count++;
           if (enabled) {
             el.classList.add('gbp-blur');
             el.classList.remove('gbp-hidden');
@@ -100,18 +95,12 @@
       for (const sel of SELECTORS) {
         try {
           if (root.matches(sel)) {
-            count++;
             if (enabled) root.classList.add('gbp-blur');
             else root.classList.remove('gbp-blur', 'gbp-reveal');
           }
         } catch {}
       }
     }
-    if (!quiet) {
-      if (count > 0) console.log('[gmail-blur] blurred', count, 'nodes');
-      else console.log('[gmail-blur] applyBlur: 0 nodes (selector mungkin kedaluwarsa). url=', location.href, 'rows=', document.querySelectorAll('tr.zA, div[role="listitem"]').length);
-    }
-    return count;
   }
 
   // Click toggles reveal per ROW in list view, per element in message view
@@ -131,11 +120,11 @@
   // re-scan periodically, and re-scan when the tab becomes visible again.
   let pending = false;
   let lastFull = 0;
-  function fullRescan(quiet = true) {
+  function fullRescan() {
     const now = Date.now();
     if (now - lastFull < 1000) return; // throttle: max 1 full scan/sec
     lastFull = now;
-    applyBlur(document, quiet);
+    applyBlur(document);
   }
   const observer = new MutationObserver((mutations) => {
     if (pending) return;
@@ -146,12 +135,12 @@
       for (const m of mutations) {
         if (m.type === 'attributes') { classTouched = true; continue; }
         m.addedNodes.forEach((n) => {
-          if (n.nodeType === 1) applyBlur(n, true);
+          if (n.nodeType === 1) applyBlur(n);
         });
       }
       // Fallback: Gmail sometimes updates text in existing rows without adding nodes.
       // Re-scan document at most once per batch if row count grew.
-      if (mutations.length > 5 || classTouched) fullRescan(true);
+      if (mutations.length > 5 || classTouched) fullRescan();
     });
   });
 
@@ -171,9 +160,9 @@
     [500, 1500, 3000].forEach((t) => setTimeout(() => applyBlur(document), t));
     observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
     // Safety net: re-apply every 2.5s in case Gmail rewrote row classes
-    setInterval(() => { if (enabled && !document.hidden) applyBlur(document, true); }, 2500);
+    setInterval(() => { if (enabled && !document.hidden) applyBlur(document); }, 2500);
     // Re-apply when returning to the tab — Gmail refreshes the list then
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) fullRescan(true); });
-    window.addEventListener('focus', () => fullRescan(true));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) fullRescan(); });
+    window.addEventListener('focus', () => fullRescan());
   })();
 })();

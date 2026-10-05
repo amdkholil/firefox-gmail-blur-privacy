@@ -34,7 +34,7 @@ Get it from **Firefox Add-ons**:
 
 ## Compatibility
 
-- Firefox 57+ (desktop).
+- Firefox 58+ (desktop).
 - Gmail web (`mail.google.com`, `gmail.com`).
 - Gmail occasionally changes its layout; if blur stops working after a
   Gmail update, please open an issue (see below) and we'll update it.

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Gmail Blur Privacy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blurs Gmail subjects, senders, snippets and bodies. Hover/click to reveal. Toggle via toolbar.",
   "permissions": ["storage", "*://mail.google.com/*", "*://gmail.com/*"],
   "background": {

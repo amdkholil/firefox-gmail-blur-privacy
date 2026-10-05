@@ -5,12 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Removed
-
-- All `console.log` diagnostics from the content script — the console stays
-  clean (temporary debug logging can be re-added locally when needed).
+## [1.0.1] - 2026-10-05
 
 ### Fixed
 
@@ -18,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   classes on refresh, wiping the blur class. The content script now watches
   `class` attribute changes, re-scans periodically (2.5s safety net), and
   re-applies blur when the tab becomes visible again.
+- AMO submission: declare `browser_specific_settings.gecko
+  .data_collection_permissions.required: ["none"]` (no data collected).
+
+### Removed
+
+- All `console.log` diagnostics from the content script — the console stays
+  clean (temporary debug logging can be re-added locally when needed).
 
 ## [1.0.0] - 2026-10-05
 

@@ -3,9 +3,6 @@
   "name": "Gmail Blur Privacy",
   "version": "1.0.0",
   "description": "Blurs Gmail subjects, senders, snippets and bodies. Hover/click to reveal. Toggle via toolbar.",
-  "data_collection_permissions": {
-    "required": []
-  },
   "permissions": ["storage", "*://mail.google.com/*", "*://gmail.com/*"],
   "background": {
     "scripts": ["background.js"]
@@ -38,6 +35,9 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "gmail-blur-privacy@amdkholil",
+      "data_collection_permissions": {
+        "required": ["none"]
+      },
       "strict_min_version": "57.0"
     }
   }

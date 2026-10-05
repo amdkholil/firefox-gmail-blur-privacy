@@ -80,7 +80,7 @@
     console.log('[gmail-blur] enabled =', enabled);
   }
 
-  function applyBlur(root = document) {
+  function applyBlur(root = document, quiet = false) {
     let count = 0;
     for (const sel of SELECTORS) {
       try {
@@ -107,8 +107,10 @@
         } catch {}
       }
     }
-    if (count > 0) console.log('[gmail-blur] blurred', count, 'nodes');
-    else console.log('[gmail-blur] applyBlur: 0 nodes (selector mungkin kedaluwarsa). url=', location.href, 'rows=', document.querySelectorAll('tr.zA, div[role="listitem"]').length);
+    if (!quiet) {
+      if (count > 0) console.log('[gmail-blur] blurred', count, 'nodes');
+      else console.log('[gmail-blur] applyBlur: 0 nodes (selector mungkin kedaluwarsa). url=', location.href, 'rows=', document.querySelectorAll('tr.zA, div[role="listitem"]').length);
+    }
     return count;
   }
 
@@ -124,21 +126,32 @@
     if (t) t.classList.toggle('gbp-reveal');
   }, true);
 
-  // Gmail is a SPA — observe for new nodes (debounced, Gmail reuses rows)
+  // Gmail is a SPA and rewrites row classes on refresh (new-mail check,
+  // tab refocus), which wipes our blur class. So: watch class attributes,
+  // re-scan periodically, and re-scan when the tab becomes visible again.
   let pending = false;
+  let lastFull = 0;
+  function fullRescan(quiet = true) {
+    const now = Date.now();
+    if (now - lastFull < 1000) return; // throttle: max 1 full scan/sec
+    lastFull = now;
+    applyBlur(document, quiet);
+  }
   const observer = new MutationObserver((mutations) => {
     if (pending) return;
     pending = true;
     requestAnimationFrame(() => {
       pending = false;
+      let classTouched = false;
       for (const m of mutations) {
+        if (m.type === 'attributes') { classTouched = true; continue; }
         m.addedNodes.forEach((n) => {
-          if (n.nodeType === 1) applyBlur(n);
+          if (n.nodeType === 1) applyBlur(n, true);
         });
       }
       // Fallback: Gmail sometimes updates text in existing rows without adding nodes.
       // Re-scan document at most once per batch if row count grew.
-      if (mutations.length > 5) applyBlur(document);
+      if (mutations.length > 5 || classTouched) fullRescan(true);
     });
   });
 
@@ -156,6 +169,11 @@
     applyBlur(document);
     // Re-apply a few times — Gmail lazy-loads rows after idle
     [500, 1500, 3000].forEach((t) => setTimeout(() => applyBlur(document), t));
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    // Safety net: re-apply every 2.5s in case Gmail rewrote row classes
+    setInterval(() => { if (enabled && !document.hidden) applyBlur(document, true); }, 2500);
+    // Re-apply when returning to the tab — Gmail refreshes the list then
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) fullRescan(true); });
+    window.addEventListener('focus', () => fullRescan(true));
   })();
 })();

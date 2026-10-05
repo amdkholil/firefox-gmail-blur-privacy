@@ -6,6 +6,8 @@ keep a message visible.
 
 ![Gmail Blur Privacy icon](icons/icon-128.png)
 
+☕ [Buy me a coffee](https://buymeacoffee.com/amdkholil) — support development.
+
 ## Install
 
 Get it from **Firefox Add-ons**:
@@ -59,12 +61,6 @@ file them as public issues.
 ## Contributing
 
 Want to help or hack on it? See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Support this project
-
-If this extension keeps your inbox private, consider supporting development:
-
-☕ [Buy me a coffee](https://buymeacoffee.com/amdkholil)
 
 ## More docs
 

@@ -8,6 +8,12 @@ keep a message visible.
 
 ☕ [Buy me a coffee](https://buymeacoffee.com/amdkholil) — support development.
 
+## Example
+
+Inbox and message view blurred — hover a row to peek, click to pin it visible:
+
+![Blurred Gmail inbox and message](captures/blurred-inbox.png)
+
 ## Install
 
 Get it from **Firefox Add-ons**:

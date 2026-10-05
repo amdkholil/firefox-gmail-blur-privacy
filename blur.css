@@ -1,0 +1,23 @@
+/* Applied to Gmail rows / message content. Revealed on hover or when .gbp-reveal is toggled by click. */
+/* Inbox list: hover/click anywhere on the row reveals all blurred fields in that row. */
+.gbp-blur {
+  filter: blur(6px) !important;
+  transition: filter 0.15s ease-in-out;
+  cursor: pointer;
+}
+.gbp-blur:hover,
+.gbp-blur.gbp-reveal {
+  filter: none !important;
+}
+/* Per-item (row) hover: hovering the row unblurs all children */
+tr.zA:hover .gbp-blur,
+div[role="listitem"]:hover .gbp-blur,
+table[role="grid"] tr:hover .gbp-blur {
+  filter: none !important;
+}
+/* Per-item (row) pin: clicking toggles .gbp-reveal on the row itself */
+tr.zA.gbp-reveal .gbp-blur,
+div[role="listitem"].gbp-reveal .gbp-blur,
+table[role="grid"] tr.gbp-reveal .gbp-blur {
+  filter: none !important;
+}
